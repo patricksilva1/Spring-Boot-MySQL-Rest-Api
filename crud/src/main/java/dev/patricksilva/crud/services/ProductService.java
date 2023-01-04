@@ -1,6 +1,7 @@
 package dev.patricksilva.crud.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -23,8 +24,19 @@ public class ProductService {
 
         return products.stream()
                 .map(product -> new ModelMapper()
-                .map(product, ProductDTO.class))
+                        .map(product, ProductDTO.class))
                 .collect(Collectors.toList());
     }
 
+    public Optional<ProductDTO> findById(Long id) {
+
+        Optional<Product> product = productRepository.findById(Math.toIntExact(id));
+
+        if (product.isEmpty()) {
+            throw new RuntimeException("Id: " + id + " not found!");
+        }
+
+        ProductDTO dto = new ModelMapper().map(product.get(), ProductDTO.class);
+        return Optional.of(dto);
+    }
 }
