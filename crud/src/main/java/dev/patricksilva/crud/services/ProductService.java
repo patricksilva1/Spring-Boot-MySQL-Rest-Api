@@ -61,7 +61,7 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(Math.toIntExact(id));
 
         if (product.isEmpty()) {
-            throw new ResourceNotFoundException("Could not delete this product with id: " + id + ", product does not exists!");
+            throw new ResourceNotFoundException("Could not delete this product with id: " + id + ", product does not exist!");
         }
 
         productRepository.deleteById(Math.toIntExact(id));
