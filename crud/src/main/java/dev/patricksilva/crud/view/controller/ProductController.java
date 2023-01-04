@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.patricksilva.crud.model.Product;
 import dev.patricksilva.crud.services.ProductService;
 import dev.patricksilva.crud.shared.ProductDTO;
 import dev.patricksilva.crud.view.model.ProductRequest;
