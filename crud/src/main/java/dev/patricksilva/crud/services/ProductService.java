@@ -39,4 +39,18 @@ public class ProductService {
         ProductDTO dto = new ModelMapper().map(product.get(), ProductDTO.class);
         return Optional.of(dto);
     }
+
+    public ProductDTO addProduct(ProductDTO productDTO) {
+        productDTO.setId(null);
+
+        ModelMapper mapper = new ModelMapper();
+
+        Product product = mapper.map(productDTO, Product.class);
+
+        product = productRepository.save(product);
+
+        productDTO.setId(product.getId());
+
+        return productDTO;
+    }
 }
