@@ -1,6 +1,7 @@
 package dev.patricksilva.crud.view.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,6 +37,16 @@ public class ProductController {
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<ProductResponse>> findById(@PathVariable Long id) {
+
+        Optional<ProductDTO> dto = productService.findById(id);
+
+        ProductResponse product = new ModelMapper().map(dto.get(), ProductResponse.class);
+
+        return new ResponseEntity<>(Optional.of(product), HttpStatus.OK);
     }
 
 }
