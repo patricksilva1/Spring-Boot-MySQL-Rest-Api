@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.patricksilva.crud.model.Product;
+import dev.patricksilva.crud.model.exception.ResourceNotFoundException;
 import dev.patricksilva.crud.repository.ProductRepository;
 import dev.patricksilva.crud.shared.ProductDTO;
 
@@ -33,7 +34,7 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(Math.toIntExact(id));
 
         if (product.isEmpty()) {
-            throw new RuntimeException("Id: " + id + " not found!");
+            throw new ResourceNotFoundException("Id: " + id + " not found!");
         }
 
         ProductDTO dto = new ModelMapper().map(product.get(), ProductDTO.class);
@@ -60,7 +61,7 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(Math.toIntExact(id));
 
         if (product.isEmpty()) {
-            throw new RuntimeException();
+            throw new ResourceNotFoundException("Could not delete this product with id: " + id + ", product does not exists!");
         }
 
         productRepository.deleteById(Math.toIntExact(id));
