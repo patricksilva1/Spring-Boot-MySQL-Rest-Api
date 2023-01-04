@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.patricksilva.crud.model.Product;
 import dev.patricksilva.crud.services.ProductService;
 import dev.patricksilva.crud.shared.ProductDTO;
+import dev.patricksilva.crud.view.model.ProductRequest;
 import dev.patricksilva.crud.view.model.ProductResponse;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/products")
@@ -49,4 +53,26 @@ public class ProductController {
         return new ResponseEntity<>(Optional.of(product), HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest productRequest) {
+
+        ModelMapper mapper = new ModelMapper();
+
+        ProductDTO productDTO = mapper.map(productRequest, ProductDTO.class);
+
+        productDTO = productService.addProduct(productDTO);
+
+        return new ResponseEntity<>(mapper.map(productDTO, ProductResponse.class), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProductResponse> update(@RequestBody ProductRequest productRequest, @PathVariable Long id) {
+        ModelMapper mapper = new ModelMapper();
+
+        ProductDTO productDTO = mapper.map(productRequest, ProductDTO.class);
+
+        productDTO = productService.update(id, productDTO);
+
+        return new ResponseEntity<>(mapper.map(productDTO, ProductResponse.class), HttpStatus.OK);
+    }
 }
