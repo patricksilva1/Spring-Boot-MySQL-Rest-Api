@@ -66,4 +66,16 @@ public class ProductService {
         productRepository.deleteById(Math.toIntExact(id));
     }
 
+    public ProductDTO update(Long id, ProductDTO productDTO) {
+
+        productDTO.setId(id);
+
+        ModelMapper mapper = new ModelMapper();
+
+        Product product = mapper.map(productDTO, Product.class);
+
+        productRepository.save(product);
+
+        return productDTO;
+    }
 }
