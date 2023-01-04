@@ -40,6 +40,8 @@ public class ProductService {
         return Optional.of(dto);
     }
 
+    // Here, we're gonna null the Id then set the id using the product.getId()
+    // method over there.
     public ProductDTO addProduct(ProductDTO productDTO) {
         productDTO.setId(null);
 
@@ -53,4 +55,15 @@ public class ProductService {
 
         return productDTO;
     }
+
+    public void delete(Long id) {
+        Optional<Product> product = productRepository.findById(Math.toIntExact(id));
+
+        if (product.isEmpty()) {
+            throw new RuntimeException();
+        }
+
+        productRepository.deleteById(Math.toIntExact(id));
+    }
+
 }
