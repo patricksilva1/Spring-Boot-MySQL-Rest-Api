@@ -25,3 +25,5 @@ Building a CRUD Restful API using Spring Boot with MySQL Database and MVC Design
 
 ### 4. Start the application via Maven package or Start it using Spring Boot Application as default:
  `/crud/src/main/java/dev/patricksilva/crud/CrudApplication.java`
+
+### 5. The App will start running at http://localhost:9010/
