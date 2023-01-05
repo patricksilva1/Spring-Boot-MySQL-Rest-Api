@@ -51,7 +51,7 @@ Be careful to use the correct Id and remove the `{id}`. For example:
 
 Getting all products from the Database.
 
-Json Return:
+Body Return:
 
 ```Json
 {
@@ -68,7 +68,7 @@ ___
 
 Getting a product by ID from the Database.
 
-Json Return:
+Body Return:
 
 ```Json
 {
@@ -85,7 +85,7 @@ ___
 
 Creating one or more products within the Database.
 
-Json: 
+Body: 
 
 ```Json
 {
@@ -101,7 +101,7 @@ ___
 
 Updating a product by Id.
 
-Json: 
+Body: 
 
 ```Json
 {
@@ -117,7 +117,7 @@ ___
 
 Deleting a product. This should return an Http Status 204.
 
-Json: 
+Body: 
 
 ```Json
 []                                              204 No Content
