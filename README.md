@@ -2,6 +2,10 @@
 
 Building a CRUD Restful API using Spring Boot with MySQL Database and MVC Design Pattern.
 
+## `The Architecture`
+
+![APIRestful](https://raw.githubusercontent.com/patricksilva1/Spring-Boot-MySQL-Rest-Api/main/screenshot/APIRestful.png)
+
 ## Requirements
 
 1. Java - 1.8.x or newer
