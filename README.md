@@ -27,3 +27,20 @@ Building a CRUD Restful API using Spring Boot with MySQL Database and MVC Design
  `/crud/src/main/java/dev/patricksilva/crud/CrudApplication.java`
 
 ### 5. The App will start running at http://localhost:9010/
+
+___
+
+## Explore HTTP Methods:
+
+| Http Methods | URL                                     |
+| ------------ | --------------------------------------- |
+| GET          | http://localhost:9010/api/products      |
+| GET/{id}     | http://localhost:9010/api/products/{id} |
+| POST         | http://localhost:9010/api/products      |
+| PUT          | http://localhost:9010/api/products/{id} |
+| DEL          | http://localhost:9010/api/products/{id} |
+
+You can use them using a REST client such as Postman, Insomnia, etc.
+
+Be careful to use the correct Id and remove the `{id}`. For example: 
+> Put - http://localhost:9010/api/products/1
