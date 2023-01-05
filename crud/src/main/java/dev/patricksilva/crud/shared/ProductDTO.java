@@ -1,18 +1,18 @@
 package dev.patricksilva.crud.shared;
 
 public class ProductDTO {
-    private Long id;
+    private Integer id;
     private String name;
     private Integer quantity;
     private Double price;
     private String observation;
 
     // #region Getters and Setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

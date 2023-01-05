@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Product {
-    private Long id;
+    private Integer id;
     private String name;
     private Integer quantity;
     private Double price;
@@ -16,11 +16,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     // #region Getters and Setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

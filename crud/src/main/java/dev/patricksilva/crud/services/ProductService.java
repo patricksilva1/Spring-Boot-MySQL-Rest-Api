@@ -29,9 +29,9 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<ProductDTO> findById(Long id) {
+    public Optional<ProductDTO> findById(int id) {
 
-        Optional<Product> product = productRepository.findById(Math.toIntExact(id));
+        Optional<Product> product = productRepository.findById(id);
 
         if (product.isEmpty()) {
             throw new ResourceNotFoundException("Id: " + id + " not found!");
@@ -57,17 +57,17 @@ public class ProductService {
         return productDTO;
     }
 
-    public void delete(Long id) {
-        Optional<Product> product = productRepository.findById(Math.toIntExact(id));
+    public void delete(int id) {
+        Optional<Product> product = productRepository.findById(id);
 
         if (product.isEmpty()) {
             throw new ResourceNotFoundException("Could not delete this product with id: " + id + ", product does not exist!");
         }
 
-        productRepository.deleteById(Math.toIntExact(id));
+        productRepository.deleteById(id);
     }
 
-    public ProductDTO update(Long id, ProductDTO productDTO) {
+    public ProductDTO update(int id, ProductDTO productDTO) {
 
         productDTO.setId(id);
 

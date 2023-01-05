@@ -19,6 +19,7 @@ import dev.patricksilva.crud.shared.ProductDTO;
 import dev.patricksilva.crud.view.model.ProductRequest;
 import dev.patricksilva.crud.view.model.ProductResponse;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -43,7 +44,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<ProductResponse>> findById(@PathVariable Long id) {
+    public ResponseEntity<Optional<ProductResponse>> findById(@PathVariable Integer id) {
 
         Optional<ProductDTO> dto = productService.findById(id);
 
@@ -65,7 +66,15 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProductResponse> update(@RequestBody ProductRequest productRequest, @PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        productService.delete(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponse> update(@RequestBody ProductRequest productRequest,
+            @PathVariable Integer id) {
         ModelMapper mapper = new ModelMapper();
 
         ProductDTO productDTO = mapper.map(productRequest, ProductDTO.class);
