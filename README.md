@@ -44,3 +44,71 @@ You can use them using a REST client such as Postman, Insomnia, etc.
 
 Be careful to use the correct Id and remove the `{id}`. For example: 
 > Put - http://localhost:9010/api/products/1
+
+## How use:
+
+`GET` : http://localhost:9010/api/products
+
+Json Return:
+
+```Json
+{
+    "id:":"1",
+    "name":"Hamburger",
+    "quantity":"100",
+    "price":"5.27",
+    "observation":"The original and for many still the best. So good, in fact. Burger of Excellent quality. Bread, Cheese and Meat."
+}
+```
+
+`GET/{id}` : http://localhost:9010/api/products/1
+
+Json Return:
+
+```Json
+{
+    "id:":"1",
+    "name":"Hamburger",
+    "quantity":"100",
+    "price":"5.27",
+    "observation":"The original and for many still the best. So good, in fact. Burger of Excellent quality. Bread, Cheese and Meat."
+}
+```
+
+`POST` : http://localhost:9010/api/products
+
+Json: 
+
+```Json
+{
+    "name":"Hamburger",
+    "quantity":"100",
+    "price":"5.27",
+    "observation":"The original and for many still the best. So good, in fact. Burger of Excellent quality. Bread, Cheese and Meat."
+}
+```
+
+`PUT/{id}` : http://localhost:9010/api/products/1
+
+Json: 
+
+```Json
+{
+    "name":"Burger",
+    "quantity":"120",
+    "price":"5.27",
+    "observation":"The original and for many still the best. So good, in fact."
+}
+```
+
+`DEL/{id}` : http://localhost:9010/api/products/1
+
+Json: 
+
+```Json
+[]                                              204 No Content
+```
+
+
+
+
