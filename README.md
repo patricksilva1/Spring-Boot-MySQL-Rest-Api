@@ -49,6 +49,8 @@ Be careful to use the correct Id and remove the `{id}`. For example:
 
 `GET` : http://localhost:9010/api/products
 
+Getting all products from the Database.
+
 Json Return:
 
 ```Json
@@ -63,6 +65,8 @@ Json Return:
 ___
 
 `GET/{id}` : http://localhost:9010/api/products/1
+
+Getting a product by ID from the Database.
 
 Json Return:
 
@@ -79,6 +83,8 @@ ___
 
 `POST` : http://localhost:9010/api/products
 
+Creating one or more products within the Database.
+
 Json: 
 
 ```Json
@@ -93,6 +99,8 @@ ___
 
 `PUT/{id}` : http://localhost:9010/api/products/1
 
+Updating a product by Id.
+
 Json: 
 
 ```Json
@@ -106,6 +114,8 @@ Json:
 ___
 
 `DEL/{id}` : http://localhost:9010/api/products/1
+
+Deleting a product. This should return an Http Status 204.
 
 Json: 
 
