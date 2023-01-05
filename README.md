@@ -60,6 +60,7 @@ Json Return:
     "observation":"The original and for many still the best. So good, in fact. Burger of Excellent quality. Bread, Cheese and Meat."
 }
 ```
+___
 
 `GET/{id}` : http://localhost:9010/api/products/1
 
@@ -74,6 +75,7 @@ Json Return:
     "observation":"The original and for many still the best. So good, in fact. Burger of Excellent quality. Bread, Cheese and Meat."
 }
 ```
+___
 
 `POST` : http://localhost:9010/api/products
 
@@ -87,6 +89,7 @@ Json:
     "observation":"The original and for many still the best. So good, in fact. Burger of Excellent quality. Bread, Cheese and Meat."
 }
 ```
+___
 
 `PUT/{id}` : http://localhost:9010/api/products/1
 
@@ -100,6 +103,7 @@ Json:
     "observation":"The original and for many still the best. So good, in fact."
 }
 ```
+___
 
 `DEL/{id}` : http://localhost:9010/api/products/1
 
@@ -108,7 +112,7 @@ Json:
 ```Json
 []                                              204 No Content
 ```
-
+___
 
 
 
