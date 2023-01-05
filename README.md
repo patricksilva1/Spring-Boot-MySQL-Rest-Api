@@ -23,4 +23,5 @@ Building a CRUD Restful API using Spring Boot with MySQL Database and MVC Design
 * Open `/crud/src/main/resources/application.properties`
 * Change `spring.datasource.username` and `spring.datasource.password` as per your MySQL Credentials.
 
-### 4. Start the application via Maven package or Start it using Spring Boot Application as default: `/crud/src/main/java/dev/patricksilva/crud/CrudApplication.java`
+### 4. Start the application via Maven package or Start it using Spring Boot Application as default:
+ `/crud/src/main/java/dev/patricksilva/crud/CrudApplication.java`
