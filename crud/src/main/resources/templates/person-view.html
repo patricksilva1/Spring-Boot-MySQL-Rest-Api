@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Person Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Person Details</h1>
+    <p><strong>Name:</strong> <span th:text="${person.name}">Name</span></p>
+    <p><strong>Email:</strong> <span th:text="${person.email}">Email</span></p>
+    <h2>Products</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Observation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${person.products}">
+            <td th:text="${product.name}">Product Name</td>
+            <td th:text="${product.quantity}">Quantity</td>
+            <td th:text="${product.price}">Price</td>
+            <td th:text="${product.observation}">Observation</td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/people" class="btn btn-secondary">Back to List</a>
+</div>
+</body>
+</html>

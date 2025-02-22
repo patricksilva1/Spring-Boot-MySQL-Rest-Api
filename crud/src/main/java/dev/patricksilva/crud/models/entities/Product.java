@@ -4,23 +4,33 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "product")
 public class Product {
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
     private Integer quantity;
     private Double price;
     private String observation;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @ManyToOne
+    @JoinColumn(name = "people_id")
+    private People people;
+
     // #region Getters and Setters
-    public Integer getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,5 +66,12 @@ public class Product {
         this.observation = observation;
     }
 
+    public People getPeople() {
+        return people;
+    }
+
+    public void setPeople(People people) {
+        this.people = people;
+    }
     // #endregion
 }

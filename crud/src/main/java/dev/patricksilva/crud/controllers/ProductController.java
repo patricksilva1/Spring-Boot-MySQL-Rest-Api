@@ -1,28 +1,37 @@
 package dev.patricksilva.crud.controllers;
 
-import dev.patricksilva.crud.models.services.ProductServiceImpl;
+import dev.patricksilva.crud.models.services.ProductService;
 import dev.patricksilva.crud.models.shared.ProductDTO;
 import dev.patricksilva.crud.view.ProductRequest;
 import dev.patricksilva.crud.view.ProductResponse;
 import dev.patricksilva.crud.models.exception.ResourceNotFoundException;
 import dev.patricksilva.crud.models.utils.ProductMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/products")
+@Validated
 public class ProductController {
 
     private static final ProductMapper MAPPER = ProductMapper.INSTANCE;
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    @Autowired
-    private ProductServiceImpl productService;
+    private final ProductService productService;
+
+//    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     /**
      * Retrieves all products in the system.
@@ -32,6 +41,7 @@ public class ProductController {
     @Operation(summary = "Get all products", description = "Retrieve a list of all products in the system.")
     @GetMapping
     public ResponseEntity<List<ProductResponse>> findAll() {
+        logger.info("Retrieving all products");
         List<ProductDTO> products = productService.findAll();
         List<ProductResponse> response = products.stream()
                 .map(MAPPER::toResponse)
@@ -49,6 +59,7 @@ public class ProductController {
     @Operation(summary = "Get product by ID", description = "Retrieve a product by its unique identifier (ID).")
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> findById(@PathVariable Integer id) {
+        logger.info("Retrieving product with ID: {}", id);
         ProductDTO productDTO = productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + id + " not found"));
 
@@ -64,7 +75,8 @@ public class ProductController {
      */
     @Operation(summary = "Add a new product", description = "Create a new product by providing the required details.")
     @PostMapping
-    public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductRequest productRequest) {
+        logger.info("Adding new product: {}", productRequest);
         ProductDTO productDTO = MAPPER.toDtoFromRequest(productRequest);
         productDTO = productService.addProduct(productDTO);
         ProductResponse response = MAPPER.toResponse(productDTO);
@@ -80,6 +92,7 @@ public class ProductController {
     @Operation(summary = "Delete product", description = "Delete a product by its unique identifier (ID).")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        logger.info("Deleting product with ID: {}", id);
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -93,7 +106,8 @@ public class ProductController {
      */
     @Operation(summary = "Update product", description = "Update the details of an existing product by its ID.")
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> update(@RequestBody ProductRequest productRequest, @PathVariable Integer id) {
+    public ResponseEntity<ProductResponse> update(@Valid @RequestBody ProductRequest productRequest, @PathVariable Integer id) {
+        logger.info("Updating product with ID: {}", id);
         ProductDTO productDTO = MAPPER.toDtoFromRequest(productRequest);
         productDTO.setId(id);
         productDTO = productService.update(id, productDTO);
