@@ -1,137 +1,73 @@
-# 2023 -  Spring Boot, MySQL, JPA, Restful API tutorial
+# 🚀 Spring Boot, H2, JPA & RESTful API
 
-Building a CRUD Restful API using Spring Boot with MySQL Database and MVC Design Pattern.
+A complete CRUD RESTful API built with **Spring Boot**, **H2 Database**, and **MVC Design Pattern**.
 
-## `The Architecture`
+## 🏗 Architecture
 
-![APIRestful](https://raw.githubusercontent.com/patricksilva1/Spring-Boot-MySQL-Rest-Api/main/screenshot/APIRestful.png)
+![API Restful Architecture](https://raw.githubusercontent.com/patricksilva1/Spring-Boot-MySQL-Rest-Api/main/screenshot/APIRestful.png)
 
-## Requirements
+## 📋 Requirements
 
-1. Java - 1.8.x or newer
-2. Maven - 3.x.x
-3. MySQL - 5.x.x
+Ensure you have the following installed before proceeding:
 
-## Steps to Setup
+- **Java** 1.8 or newer
+- **Maven** 3.x
 
-### 1. Clone the repository
+## 🚀 Setup Guide
 
-> git clone https://github.com/patricksilva1/Spring-Boot-MySQL-Rest-Api.git
+### 1️⃣ Clone the Repository
 
-### 2. Create MySQL Database
-
-> CREATE DATABASE crud;
-
-### 3. Change MySQL Username and Password as per your installation
-
-* Open `/crud/src/main/resources/application.properties`
-* Change `spring.datasource.username` and `spring.datasource.password` as per your MySQL Credentials.
-
-### 4. Start the application via Maven package or Start it using Spring Boot Application as default:
- `/crud/src/main/java/dev/patricksilva/crud/CrudApplication.java`
-
-### 5. The App will start running at http://localhost:9010/
-
-___
-
-## Explore HTTP Methods:
-### Access the Swagger at http://localhost:8080/swagger-ui.html
-
-### or
-
-### Look the example:
-
-| Http Methods | URL                                     |
-| ------------ | --------------------------------------- |
-| GET          | http://localhost:9010/api/products      |
-| GET/{id}     | http://localhost:9010/api/products/{id} |
-| POST         | http://localhost:9010/api/products      |
-| PUT          | http://localhost:9010/api/products/{id} |
-| DEL          | http://localhost:9010/api/products/{id} |
-
-You can use them using a REST client such as Postman, Insomnia, etc.
-
-Be careful to use the correct Id and remove the `{id}`. For example: 
-> Put - http://localhost:9010/api/products/1
-
-## How use:
-
-`GET` : http://localhost:9010/api/products
-
-Getting all products from the Database.
-
-Body Return:
-
-```Json
-{
-    "id:":"1",
-    "name":"Hamburger",
-    "quantity":"100",
-    "price":"5.27",
-    "observation":"The original and for many still the best. So good, in fact. Burger of Excellent quality. Bread, Cheese and Meat."
-}
+```bash
+git clone https://github.com/patricksilva1/Spring-Boot-H2-Rest-Api.git
+cd Spring-Boot-H2-Rest-Api
 ```
-___
 
-`GET/{id}` : http://localhost:9010/api/products/1
+### 2️⃣ Start the Application
 
-Getting a product by ID from the Database.
+Run the application using Maven:
 
-Body Return:
-
-```Json
-{
-    "id:":"1",
-    "name":"Hamburger",
-    "quantity":"100",
-    "price":"5.27",
-    "observation":"The original and for many still the best. So good, in fact. Burger of Excellent quality. Bread, Cheese and Meat."
-}
+```bash
+mvn spring-boot:run
 ```
-___
 
-`POST` : http://localhost:9010/api/products
+Or execute the main class directly:
 
-Creating one or more products within the Database.
+📂 /src/main/java/dev/patricksilva/crud/CrudApplication.java
 
-Body: 
+### 3️⃣ Access the API
+The application will be available at:
 
-```Json
-{
-    "name":"Hamburger",
-    "quantity":"100",
-    "price":"5.27",
-    "observation":"The original and for many still the best. So good, in fact. Burger of Excellent quality. Bread, Cheese and Meat."
-}
+🔗 http://localhost:8080/
+
+### 📜 H2 Database
+The H2 Console allows you to explore the database:
+
+🔗 http://localhost:8080/h2-console
+
+Use the following credentials to log in:
+
+```bash
+JDBC URL: jdbc:h2:mem:testdb
+Username: sa
+Password: (leave blank)
 ```
-___
 
-`PUT/{id}` : http://localhost:9010/api/products/1
+### 📜 API Documentation
+You can explore the API using Swagger:
 
-Updating a product by Id.
+🔗 http://localhost:8080/swagger-ui.html
 
-Body: 
+Alternatively, use tools like Postman or Insomnia to test the endpoints.
 
-```Json
-{
-    "name":"Burger",
-    "quantity":"120",
-    "price":"5.27",
-    "observation":"The original and for many still the best. So good, in fact."
-}
-```
-___
+## 🔥 REST API Endpoints
 
-`DEL/{id}` : http://localhost:9010/api/products/1
+| Method   | Endpoint              | Description                |
+|----------|-----------------------|----------------------------|
+| `GET`    | `/api/products`       | Retrieve all products     |
+| `GET`    | `/api/products/{id}`  | Retrieve a product by ID  |
+| `POST`   | `/api/products`       | Create a new product      |
+| `PUT`    | `/api/products/{id}`  | Update a product by ID    |
+| `DELETE` | `/api/products/{id}`  | Delete a product by ID    |
 
-Deleting a product. This should return an Http Status 204.
-
-Body: 
-
-```Json
-[]                                              204 No Content
-```
-___
-
-
-
+### 📜 License
+This project is licensed under the MIT License.
