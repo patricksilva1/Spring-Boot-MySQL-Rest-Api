@@ -1,4 +1,4 @@
-package dev.patricksilva.crud.view.model;
+package dev.patricksilva.crud.view;
 
 public class ProductResponse {
     private Integer id;

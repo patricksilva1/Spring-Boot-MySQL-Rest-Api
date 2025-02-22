@@ -1,4 +1,4 @@
-package dev.patricksilva.crud.shared;
+package dev.patricksilva.crud.models.shared;
 
 public class ProductDTO {
     private Integer id;

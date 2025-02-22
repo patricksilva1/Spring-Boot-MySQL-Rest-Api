@@ -1,4 +1,4 @@
-package dev.patricksilva.crud.model.error;
+package dev.patricksilva.crud.models.error;
 
 public class ErrorMessage {
     private String title;

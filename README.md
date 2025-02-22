@@ -35,6 +35,11 @@ Building a CRUD Restful API using Spring Boot with MySQL Database and MVC Design
 ___
 
 ## Explore HTTP Methods:
+### Access the Swagger at http://localhost:8080/swagger-ui.html
+
+### or
+
+### Look the example:
 
 | Http Methods | URL                                     |
 | ------------ | --------------------------------------- |

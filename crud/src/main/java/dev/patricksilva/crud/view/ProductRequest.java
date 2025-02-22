@@ -1,29 +1,12 @@
-package dev.patricksilva.crud.model;
+package dev.patricksilva.crud.view;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class Product {
-    private Integer id;
+public class ProductRequest {
     private String name;
     private Integer quantity;
     private Double price;
     private String observation;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     // #region Getters and Setters
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -55,6 +38,5 @@ public class Product {
     public void setObservation(String observation) {
         this.observation = observation;
     }
-
     // #endregion
 }

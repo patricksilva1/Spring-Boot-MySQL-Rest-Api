@@ -1,9 +1,9 @@
-package dev.patricksilva.crud.repository;
+package dev.patricksilva.crud.models.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import dev.patricksilva.crud.model.Product;
+import dev.patricksilva.crud.models.entities.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
