@@ -6,6 +6,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import dev.patricksilva.crud.models.entities.Comment;
+import dev.patricksilva.crud.models.repository.CommentRepository;
 import dev.patricksilva.crud.models.utils.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     private final Executor executor = Executors.newVirtualThreadPerTaskExecutor();
 
@@ -82,5 +87,16 @@ public class ProductServiceImpl implements ProductService {
             product = productRepository.save(product);
             return ProductMapper.INSTANCE.toDto(product);
         }, executor).join();
+    }
+
+    @Override
+    public void addComment(Integer productId, String comment) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found"));
+        // Assuming a Comment entity exists
+        Comment newComment = new Comment();
+        newComment.setText(comment);
+        newComment.setProduct(product);
+        commentRepository.save(newComment);
     }
 }

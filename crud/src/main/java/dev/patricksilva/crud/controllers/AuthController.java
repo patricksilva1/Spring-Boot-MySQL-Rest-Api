@@ -5,31 +5,28 @@ import dev.patricksilva.crud.models.security.jwt.JwtUtils;
 import dev.patricksilva.crud.models.security.jwt.payload.request.LoginRequest;
 import dev.patricksilva.crud.models.security.jwt.payload.response.JwtResponse;
 import dev.patricksilva.crud.models.security.services.UserDetailsImpl;
-import dev.patricksilva.crud.models.repository.PeopleRepository;
 import dev.patricksilva.crud.models.services.PeopleService;
+import dev.patricksilva.crud.models.services.ProductService;
+import dev.patricksilva.crud.models.shared.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+@Controller
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private PeopleRepository peopleRepository;
 
     @Autowired
     private PeopleService peopleService;
@@ -40,26 +37,54 @@ public class AuthController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String showRegisterForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+
+    @GetMapping("/products")
+    public String listProducts(Model model) {
+        List<ProductDTO> products = productService.findAll();
+        model.addAttribute("products", products);
+        return "product";
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+    public String login(@ModelAttribute LoginRequest loginRequest, Model model) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getAuthorities()));
+            model.addAttribute("jwt", jwt);
+            model.addAttribute("user", userDetails);
+            return "redirect:/products";
+        } catch (Exception e) {
+            model.addAttribute("error", "Invalid email or password");
+            return "login";
+        }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public String register(@ModelAttribute User user, Model model) {
         if (peopleService.existsByEmail(user.getEmail())) {
-            return ResponseEntity.badRequest().body("Email já cadastrado!");
+            model.addAttribute("error", "Email already registered!");
+            return "register";
         }
-        // Remova a linha abaixo (não codifique aqui)
-        // user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         peopleService.savePeople(user);
-        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
+        return "redirect:/products";
     }
 }

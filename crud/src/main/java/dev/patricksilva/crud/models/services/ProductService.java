@@ -19,4 +19,6 @@ public interface ProductService {
     List<ProductDTO> findByName(String name);
 
     ProductDTO updateQuantity(int id, int quantity);
+
+    void addComment(Integer productId, String comment);
 }

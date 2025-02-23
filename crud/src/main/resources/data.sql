@@ -1,11 +1,10 @@
 -- Criação da tabela 'users'
 CREATE TABLE users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100),  -- Remover o 'NOT NULL' para permitir que 'name' seja nulo
+    name VARCHAR(100),
     email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL -- Senha armazenada de forma segura com hashing
+    password VARCHAR(255) NOT NULL
 );
-
 
 -- Criação da tabela 'roles'
 CREATE TABLE roles (
@@ -30,6 +29,16 @@ CREATE TABLE product (
     price DECIMAL(10, 2),
     observation VARCHAR(255),
     user_id BIGINT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Criação da tabela 'comments' com chaves estrangeiras para 'product' e 'users'
+CREATE TABLE comments (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    text VARCHAR(255) NOT NULL,
+    product_id BIGINT,
+    user_id BIGINT,
+    FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -61,3 +70,11 @@ INSERT INTO product (name, quantity, price, observation, user_id) VALUES
 ('Tablet', 15, 299.99, '10-inch screen tablet', 3),
 ('Smartwatch', 25, 199.99, 'Fitness tracking smartwatch', 4),
 ('Headphones', 50, 89.99, 'Noise-cancelling headphones', 5);
+
+-- Inserção de dados iniciais na tabela 'comments'
+INSERT INTO comments (text, product_id, user_id) VALUES
+('Great product!', 1, 1),
+('Very satisfied with this purchase.', 2, 2),
+('Could be better.', 3, 3),
+('Excellent quality!', 4, 4),
+('Not worth the price.', 5, 5);
