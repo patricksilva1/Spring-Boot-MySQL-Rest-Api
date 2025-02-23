@@ -8,7 +8,7 @@
 <body>
 <div class="container mt-4">
     <h1 th:text="${person.id == null} ? 'Add New Person' : 'Edit Person'">Form</h1>
-    <form th:action="@{/people}" th:object="${person}" method="post">
+    <form th:action="@{/user}" th:object="${person}" method="post">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" th:field="*{name}" class="form-control" />
@@ -18,7 +18,7 @@
             <input type="email" id="email" th:field="*{email}" class="form-control" />
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
-        <a href="/people" class="btn btn-secondary">Cancel</a>
+        <a href="/user" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 </body>

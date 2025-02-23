@@ -1,0 +1,131 @@
+---- Criação da tabela 'users' (equivalente à entidade User)
+--CREATE TABLE users (
+--    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--    name VARCHAR(100) NOT NULL,
+--    email VARCHAR(100) UNIQUE NOT NULL,
+--    password VARCHAR(255) NOT NULL
+--);
+--
+---- Criação da tabela 'roles'
+--CREATE TABLE roles (
+--    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--    name VARCHAR(50) UNIQUE NOT NULL
+--);
+--
+---- Criação da tabela 'user_roles' para o relacionamento muitos-para-muitos entre 'users' e 'roles'
+--CREATE TABLE user_roles (
+--    user_id BIGINT,
+--    role_id BIGINT,
+--    PRIMARY KEY (user_id, role_id),
+--    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+--    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+--);
+--
+---- Criação da tabela 'product' com a chave estrangeira para 'users'
+--CREATE TABLE product (
+--    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--    name VARCHAR(100) NOT NULL,
+--    quantity INT,
+--    price DECIMAL(10, 2),
+--    observation VARCHAR(255),
+--    user_id BIGINT,
+--    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+--);
+--
+---- Inserção de dados iniciais na tabela 'users'
+--INSERT INTO users (name, email, password) VALUES
+--('Alice Johnson', 'alice.johnson@example.com', 'senhaAlice'),
+--('Bob Smith', 'bob.smith@example.com', 'senhaBob'),
+--('Charlie Brown', 'charlie.brown@example.com', 'senhaCharlie'),
+--('David Wilson', 'david.wilson@example.com', 'senhaDavid'),
+--('Emma Davis', 'emma.davis@example.com', 'senhaEmma');
+--
+---- Inserção de dados iniciais na tabela 'roles'
+--INSERT INTO roles (name) VALUES
+--('ROLE_ADMIN'),
+--('ROLE_USER');
+--
+---- Inserção de dados iniciais na tabela 'user_roles'
+--INSERT INTO user_roles (user_id, role_id) VALUES
+--(1, 1), -- Alice Johnson é um admin
+--(2, 2), -- Bob Smith é um usuário comum
+--(3, 2), -- Charlie Brown é um usuário comum
+--(4, 2), -- David Wilson é um usuário comum
+--(5, 2); -- Emma Davis é um usuário comum
+--
+---- Inserção de dados iniciais na tabela 'product'
+--INSERT INTO product (name, quantity, price, observation, user_id) VALUES
+--('Laptop', 10, 999.99, 'High performance laptop', 1),
+--('Smartphone', 20, 499.99, 'Latest model smartphone', 2),
+--('Tablet', 15, 299.99, '10-inch screen tablet', 3),
+--('Smartwatch', 25, 199.99, 'Fitness tracking smartwatch', 4),
+--('Headphones', 50, 89.99, 'Noise-cancelling headphones', 5);
+
+
+
+
+
+-- Criação da tabela 'users' (equivalente à entidade User)
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL -- Senha deve ser armazenada de forma segura, idealmente usando hashing
+);
+
+-- Criação da tabela 'roles'
+CREATE TABLE roles (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Criação da tabela 'user_roles' para o relacionamento muitos-para-muitos entre 'users' e 'roles'
+CREATE TABLE user_roles (
+    user_id BIGINT,
+    role_id BIGINT,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+);
+
+-- Criação da tabela 'product' com a chave estrangeira para 'users'
+CREATE TABLE product (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    quantity INT,
+    price DECIMAL(10, 2),
+    observation VARCHAR(255),
+    user_id BIGINT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Inserção de dados iniciais na tabela 'users' (certifique-se de usar senha com hashing)
+INSERT INTO users (name, email, password) VALUES
+('Alice Johnson', 'alice.johnson@example.com', 'senhaAlice'), -- Lembre-se de substituir a senha por uma hash
+('Bob Smith', 'bob.smith@example.com', 'senhaBob'),
+('Charlie Brown', 'charlie.brown@example.com', 'senhaCharlie'),
+('David Wilson', 'david.wilson@example.com', 'senhaDavid'),
+('Emma Davis', 'emma.davis@example.com', 'senhaEmma');
+
+-- Inserção de dados iniciais na tabela 'roles'
+INSERT INTO roles (name) VALUES
+('ROLE_ADMIN'),
+('ROLE_USER');
+
+-- Inserção de dados iniciais na tabela 'user_roles'
+-- Relacionamentos entre usuários e funções
+INSERT INTO user_roles (user_id, role_id) VALUES
+(1, 1), -- Alice Johnson é um admin
+(2, 2), -- Bob Smith é um usuário comum
+(3, 2), -- Charlie Brown é um usuário comum
+(4, 2), -- David Wilson é um usuário comum
+(5, 2); -- Emma Davis é um usuário comum
+
+-- Inserção de dados iniciais na tabela 'product'
+-- Produtos criados por usuários específicos
+INSERT INTO product (name, quantity, price, observation, user_id) VALUES
+('Laptop', 10, 999.99, 'High performance laptop', 1), -- Produto criado por Alice Johnson
+('Smartphone', 20, 499.99, 'Latest model smartphone', 2), -- Produto criado por Bob Smith
+('Tablet', 15, 299.99, '10-inch screen tablet', 3), -- Produto criado por Charlie Brown
+('Smartwatch', 25, 199.99, 'Fitness tracking smartwatch', 4), -- Produto criado por David Wilson
+('Headphones', 50, 89.99, 'Noise-cancelling headphones', 5); -- Produto criado por Emma Davis

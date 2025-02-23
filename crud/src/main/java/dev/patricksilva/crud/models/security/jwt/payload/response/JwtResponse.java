@@ -1,107 +1,51 @@
 package dev.patricksilva.crud.models.security.jwt.payload.response;
 
-import java.util.List;
+import java.util.Collection;
+import org.springframework.security.core.GrantedAuthority;
 
 public class JwtResponse {
     private String token;
-    private String type = "Bearer";
-    private String id;
-    private String email;
-    private List<String> roles;
+    private Long id;
+    private String username;
+    private Collection<? extends GrantedAuthority> authorities;
 
-    /**
-     * Constructs a JwtResponse object with the provided access token, user ID, email, and roles.
-     *
-     * @param accessToken - The access token.
-     * @param id - The user ID.
-     * @param email - The user's email.
-     * @param roles - The roles associated with the user.
-     */
-    public JwtResponse(String accessToken, String id, String email, List<String> roles) {
-        this.token = accessToken;
+    public JwtResponse(String token, Long id, String username, Collection<? extends GrantedAuthority> authorities) {
+        this.token = token;
         this.id = id;
-        this.email = email;
-        this.roles = roles;
+        this.username = username;
+        this.authorities = authorities;
     }
 
-    /**
-     * Retrieves the access token from the JWT response.
-     *
-     * @return The access token.
-     */
-    public String getAccessToken() {
+    // Getters and Setters
+    public String getToken() {
         return token;
     }
 
-    /**
-     * Sets the access token in the JWT response.
-     *
-     * @param accessToken The access token to set.
-     */
-    public void setAccessToken(String accessToken) {
-        this.token = accessToken;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    /**
-     * Retrieves the token type from the JWT response.
-     *
-     * @return The token type.
-     */
-    public String getTokenType() {
-        return type;
-    }
-
-    /**
-     * Sets the token type in the JWT response.
-     *
-     * @param tokenType The token type to set.
-     */
-    public void setTokenType(String tokenType) {
-        this.type = tokenType;
-    }
-
-    /**
-     * Retrieves the user ID from the JWT response.
-     *
-     * @return The user ID.
-     */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    /**
-     * Sets the user ID in the JWT response.
-     *
-     * @param id The user ID to set.
-     */
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * Retrieves the email from the JWT response.
-     *
-     * @return The email.
-     */
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    /**
-     * Sets the email in the JWT response.
-     *
-     * @param email The email to set.
-     */
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    /**
-     * Retrieves the roles from the JWT response.
-     *
-     * @return The roles.
-     */
-    public List<String> getRoles() {
-        return roles;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 }

@@ -1,6 +1,6 @@
 package dev.patricksilva.crud.controllers;
 
-import dev.patricksilva.crud.models.entities.People;
+import dev.patricksilva.crud.models.entities.User;
 import dev.patricksilva.crud.models.services.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class PeopleViewController {
 
     @GetMapping("/{id}")
     public String viewPerson(@PathVariable("id") Long id, Model model) {
-        People person = peopleService.getPeopleById(id);
+        User person = peopleService.getPeopleById(id);
         if (person == null) {
             throw new IllegalArgumentException("Invalid person Id:" + id);
         }
@@ -32,13 +32,13 @@ public class PeopleViewController {
 
     @GetMapping("/new")
     public String showNewPersonForm(Model model) {
-        model.addAttribute("person", new People());
+        model.addAttribute("person", new User());
         return "person-form";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditPersonForm(@PathVariable("id") Long id, Model model) {
-        People person = peopleService.getPeopleById(id);
+        User person = peopleService.getPeopleById(id);
         if (person == null) {
             throw new IllegalArgumentException("Invalid person Id:" + id);
         }
@@ -47,7 +47,7 @@ public class PeopleViewController {
     }
 
     @PostMapping
-    public String savePerson(@ModelAttribute("person") People person) {
+    public String savePerson(@ModelAttribute("person") User person) {
         peopleService.savePeople(person);
         return "redirect:/people";
     }

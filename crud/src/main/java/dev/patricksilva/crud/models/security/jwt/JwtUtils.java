@@ -3,6 +3,8 @@ package dev.patricksilva.crud.models.security.jwt;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import dev.patricksilva.crud.models.security.services.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
@@ -19,32 +21,36 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+
 @Component
 public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${caixa-ada.app.jwtSecret}")
+    @Value("${app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${caixa-ada.app.jwtExpirationMs}")
-    private long jwtExpirationMs;
+    @Value("${app.jwtExpirationMs}")
+    private int jwtExpirationMs;
 
-    // Gera o token JWT usando a API da versão 0.12.0
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         // Cria os claims utilizando Jwts.claims()
-        Claims claims = Jwts.claims().build();
+//        Claims claims = Jwts.claims().build();
+//        Claims claims = Jwts.claims();
+        Map<String, Object> claimsMap = new HashMap<>();
+        claimsMap.put(Claims.SUBJECT, userPrincipal.getEmail());
+        claimsMap.put("id", userPrincipal.getId());
+        claimsMap.put("email", userPrincipal.getEmail());
+
+        Claims claims = Jwts.claims(claimsMap);
 
         // Em vez de setSubject(), insere o subject no mapa:
-        claims.put(Claims.SUBJECT, userPrincipal.getEmail());
-        claims.put("id", userPrincipal.getId());
-        claims.put("firstName", userPrincipal.getFirstName());
-        claims.put("lastName", userPrincipal.getLastName());
-        claims.put("cpf", userPrincipal.getCpf());
-        claims.put("phone", userPrincipal.getPhone());
-        // Adicione outros campos conforme necessário
+//        claims.put(Claims.SUBJECT, userPrincipal.getEmail());
+//        claims.put("id", userPrincipal.getId());
+//        claims.put("email", userPrincipal.getEmail());
 
         Date now = new Date();
         Date expiration = new Date(now.getTime() + jwtExpirationMs);
@@ -58,10 +64,16 @@ public class JwtUtils {
     }
 
     // Obtém a chave de assinatura a partir do secret
-    private Key getSigningKey() {
+//    private Key getSigningKey() {
+//        return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+//    }
+//    private SecretKey getSigningKey() {
+//        return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+//    }
+    private SecretKey getSigningKey() {
+        // Converte a string em bytes usando UTF-8
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
-
     // Extrai os claims do token utilizando a API antiga
     public Claims getAllClaimsFromToken(String token) {
         try {
@@ -104,3 +116,4 @@ public class JwtUtils {
         return false;
     }
 }
+

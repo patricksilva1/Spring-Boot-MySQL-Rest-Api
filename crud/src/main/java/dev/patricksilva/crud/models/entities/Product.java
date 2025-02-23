@@ -1,5 +1,7 @@
 package dev.patricksilva.crud.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,24 +10,24 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 
+import java.math.BigDecimal;
+
 @Entity
-@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private Integer quantity;
-    private Double price;
+    private int quantity;
+    private BigDecimal price;
     private String observation;
 
     @ManyToOne
-    @JoinColumn(name = "people_id")
-    private People people;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // #region Getters and Setters
-
     public Long getId() {
         return id;
     }
@@ -50,12 +52,24 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getObservation() {
@@ -66,12 +80,5 @@ public class Product {
         this.observation = observation;
     }
 
-    public People getPeople() {
-        return people;
-    }
-
-    public void setPeople(People people) {
-        this.people = people;
-    }
     // #endregion
 }

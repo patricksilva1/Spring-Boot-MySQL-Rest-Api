@@ -1,37 +1,61 @@
-CREATE TABLE people (
+-- Criação da tabela 'users'
+CREATE TABLE users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    cpf VARCHAR(20),
-    phone VARCHAR(20),
-    address VARCHAR(255),
-    city VARCHAR(100),
-    state VARCHAR(100),
-    zipCode VARCHAR(20),
-    country VARCHAR(100),
-    gender VARCHAR(20),
-    dateOfBirth VARCHAR(20),
-    password VARCHAR(255) NOT NULL DEFAULT ''
+    name VARCHAR(100),  -- Remover o 'NOT NULL' para permitir que 'name' seja nulo
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL -- Senha armazenada de forma segura com hashing
 );
 
+
+-- Criação da tabela 'roles'
+CREATE TABLE roles (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Criação da tabela 'user_roles' para o relacionamento muitos-para-muitos entre 'users' e 'roles'
+CREATE TABLE user_roles (
+    user_id BIGINT,
+    role_id BIGINT,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+);
+
+-- Criação da tabela 'product' com a chave estrangeira para 'users'
 CREATE TABLE product (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     quantity INT,
     price DECIMAL(10, 2),
     observation VARCHAR(255),
-    people_id BIGINT,
-    FOREIGN KEY (people_id) REFERENCES people(id)
+    user_id BIGINT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-INSERT INTO people (name, email, cpf, phone, address, city, state, zipCode, country, gender, dateOfBirth, password) VALUES
-('Alice Johnson', 'alice.johnson@example.com', '12345678901', '111111111', 'Rua A, 100', 'Cidade A', 'Estado A', '00001', 'País A', 'F', '1990-01-01', 'senhaAlice'),
-('Bob Smith', 'bob.smith@example.com', '98765432100', '222222222', 'Rua B, 200', 'Cidade B', 'Estado B', '00002', 'País B', 'M', '1985-05-05', 'senhaBob'),
-('Charlie Brown', 'charlie.brown@example.com', '11122233344', '333333333', 'Rua C, 300', 'Cidade C', 'Estado C', '00003', 'País C', 'M', '1978-03-15', 'senhaCharlie'),
-('David Wilson', 'david.wilson@example.com', '55566677788', '444444444', 'Rua D, 400', 'Cidade D', 'Estado D', '00004', 'País D', 'M', '1992-12-10', 'senhaDavid'),
-('Emma Davis', 'emma.davis@example.com', '99988877766', '555555555', 'Rua E, 500', 'Cidade E', 'Estado E', '00005', 'País E', 'F', '1995-07-20', 'senhaEmma');
+-- Inserção de dados iniciais na tabela 'users' (senhas já hashadas com bcrypt)
+INSERT INTO users (name, email, password) VALUES
+('Alice Johnson', 'alice.johnson@example.com', '$2a$12$G9f5O3cUzBXB4Z8MKnU98eB9e7cz7kUfpHK21fTxBk5X.c4tw7I/u'),
+('Bob Smith', 'bob.smith@example.com', '$2a$12$pOw5/Uckktw/RM6yW97x1e3YQmlEZ6iy.a3HZ5hL/c4JcXl1wnJS2'),
+('Charlie Brown', 'charlie.brown@example.com', '$2a$12$5yM6Hh8gFfKUjAcVkt5mveXX6rD.FbwIJU6r/MQ5.1NYcUqW3mC2W'),
+('David Wilson', 'david.wilson@example.com', '$2a$12$zBGGAmkJx2Sz/eS3RYoO6OCJ69T6fEIVTNRDEJmE5H5JL8ZDpdtj2'),
+('Emma Davis', 'emma.davis@example.com', '$2a$12$QPT5G5/n53os6R2oJ66Eze.PB/5AVzXZSoDbmhC/ExlT1n6qIdUBC');
 
-INSERT INTO product (name, quantity, price, observation, people_id) VALUES
+-- Inserção de dados iniciais na tabela 'roles'
+INSERT INTO roles (name) VALUES
+('ROLE_ADMIN'),
+('ROLE_USER');
+
+-- Inserção de dados iniciais na tabela 'user_roles'
+INSERT INTO user_roles (user_id, role_id) VALUES
+(1, 1),
+(2, 2),
+(3, 2),
+(4, 2),
+(5, 2);
+
+-- Inserção de dados iniciais na tabela 'product'
+INSERT INTO product (name, quantity, price, observation, user_id) VALUES
 ('Laptop', 10, 999.99, 'High performance laptop', 1),
 ('Smartphone', 20, 499.99, 'Latest model smartphone', 2),
 ('Tablet', 15, 299.99, '10-inch screen tablet', 3),
