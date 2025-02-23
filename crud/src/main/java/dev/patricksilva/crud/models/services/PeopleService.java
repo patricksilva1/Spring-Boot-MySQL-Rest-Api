@@ -9,9 +9,13 @@ public interface PeopleService {
 
     User getPeopleById(Long id);
 
+    User getPeopleByEmail(String email);
+
     void savePeople(User user);
 
     void deletePeople(Long id);
 
     boolean existsByEmail(String email);
+
+    void updatePassword(Long id, String password);
 }

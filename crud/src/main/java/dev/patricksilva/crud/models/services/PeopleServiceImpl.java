@@ -2,6 +2,7 @@ package dev.patricksilva.crud.models.services;
 
 import dev.patricksilva.crud.models.entities.Role;
 import dev.patricksilva.crud.models.entities.User;
+import dev.patricksilva.crud.models.exception.ResourceNotFoundException;
 import dev.patricksilva.crud.models.repository.PeopleRepository;
 import dev.patricksilva.crud.models.repository.RoleRepository;
 import dev.patricksilva.crud.models.utils.PasswordService;
@@ -22,30 +23,18 @@ public class PeopleServiceImpl implements PeopleService {
     @Autowired
     private RoleRepository roleRepository;
 
-//    @Override
-//    public void savePeople(User pessoa) {
-//        pessoa.setPassword(passwordService.encodePassword(pessoa.getPassword()));
-//        peopleRepository.save(pessoa);
-//    }
-@Override
-public void savePeople(User pessoa) {
-    // Codifica a senha
-    pessoa.setPassword(passwordService.encodePassword(pessoa.getPassword()));
-
-    // Busca a role padrão ou cria uma nova
-    Role defaultRole = roleRepository.findByName("ROLE_USER")
-            .orElseGet(() -> {
-                Role newRole = new Role();
-                newRole.setName("ROLE_USER");
-                return roleRepository.save(newRole);
-            });
-
-    // Atribui a role ao usuário
-    pessoa.getRoles().add(defaultRole);
-
-    // Salva o usuário
-    peopleRepository.save(pessoa);
-}
+    @Override
+    public void savePeople(User pessoa) {
+        pessoa.setPassword(passwordService.encodePassword(pessoa.getPassword()));
+        Role defaultRole = roleRepository.findByName("ROLE_USER")
+                .orElseGet(() -> {
+                    Role newRole = new Role();
+                    newRole.setName("ROLE_USER");
+                    return roleRepository.save(newRole);
+                });
+        pessoa.getRoles().add(defaultRole);
+        peopleRepository.save(pessoa);
+    }
 
     @Override
     public List<User> getAllPeople() {
@@ -55,6 +44,11 @@ public void savePeople(User pessoa) {
     @Override
     public User getPeopleById(Long id) {
         return peopleRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public User getPeopleByEmail(String email) {
+        return peopleRepository.findByEmail(email).orElse(null);
     }
 
     @Override
@@ -69,5 +63,12 @@ public void savePeople(User pessoa) {
     @Override
     public boolean existsByEmail(String email) {
         return peopleRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void updatePassword(Long id, String password) {
+        User user = peopleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id: " + id + " not found!"));
+        user.setPassword(passwordService.encodePassword(password));
+        peopleRepository.save(user);
     }
 }

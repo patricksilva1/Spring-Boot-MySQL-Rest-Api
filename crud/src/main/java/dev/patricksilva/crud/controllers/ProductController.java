@@ -28,16 +28,10 @@ public class ProductController {
 
     private final ProductService productService;
 
-//    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    /**
-     * Retrieves all products in the system.
-     *
-     * @return a ResponseEntity containing a list of ProductResponse objects.
-     */
     @Operation(summary = "Get all products", description = "Retrieve a list of all products in the system.")
     @GetMapping
     public ResponseEntity<List<ProductResponse>> findAll() {
@@ -49,13 +43,6 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Retrieves a product by its unique identifier (ID).
-     *
-     * @param id the ID of the product to be retrieved.
-     * @return a ResponseEntity containing the ProductResponse.
-     * @throws ResourceNotFoundException if the product with the given ID is not found.
-     */
     @Operation(summary = "Get product by ID", description = "Retrieve a product by its unique identifier (ID).")
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> findById(@PathVariable Integer id) {
@@ -67,12 +54,6 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Adds a new product to the system.
-     *
-     * @param productRequest the product information to be added.
-     * @return a ResponseEntity containing the created ProductResponse.
-     */
     @Operation(summary = "Add a new product", description = "Create a new product by providing the required details.")
     @PostMapping
     public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductRequest productRequest) {
@@ -83,12 +64,6 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    /**
-     * Deletes a product by its unique identifier (ID).
-     *
-     * @param id the ID of the product to be deleted.
-     * @return a ResponseEntity with no content, indicating successful deletion.
-     */
     @Operation(summary = "Delete product", description = "Delete a product by its unique identifier (ID).")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -97,13 +72,6 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * Updates the details of an existing product.
-     *
-     * @param productRequest the updated product information.
-     * @param id the ID of the product to be updated.
-     * @return a ResponseEntity containing the updated ProductResponse.
-     */
     @Operation(summary = "Update product", description = "Update the details of an existing product by its ID.")
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> update(@Valid @RequestBody ProductRequest productRequest, @PathVariable Integer id) {
@@ -111,6 +79,26 @@ public class ProductController {
         ProductDTO productDTO = MAPPER.toDtoFromRequest(productRequest);
         productDTO.setId(id);
         productDTO = productService.update(id, productDTO);
+        ProductResponse response = MAPPER.toResponse(productDTO);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Get products by name", description = "Retrieve products by their name.")
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<ProductResponse>> findByName(@PathVariable String name) {
+        logger.info("Retrieving products with name: {}", name);
+        List<ProductDTO> products = productService.findByName(name);
+        List<ProductResponse> response = products.stream()
+                .map(MAPPER::toResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Update product quantity", description = "Update the quantity of an existing product by its ID.")
+    @PatchMapping("/{id}/quantity")
+    public ResponseEntity<ProductResponse> updateQuantity(@PathVariable Integer id, @RequestParam Integer quantity) {
+        logger.info("Updating quantity of product with ID: {}", id);
+        ProductDTO productDTO = productService.updateQuantity(id, quantity);
         ProductResponse response = MAPPER.toResponse(productDTO);
         return ResponseEntity.ok(response);
     }

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -31,6 +30,14 @@ public class UserController {
                 : ResponseEntity.ok(person);
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<User> getPeopleByEmail(@PathVariable String email) {
+        User person = peopleService.getPeopleByEmail(email);
+        return person == null
+                ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(person);
+    }
+
     @PostMapping
     public ResponseEntity<Void> savePeople(@RequestBody User user) {
         peopleService.savePeople(user);
@@ -44,6 +51,12 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         peopleService.deletePeople(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/password")
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestParam String password) {
+        peopleService.updatePassword(id, password);
         return ResponseEntity.noContent().build();
     }
 }

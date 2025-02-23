@@ -15,4 +15,8 @@ public interface ProductService {
     void delete(int id);
 
     ProductDTO update(int id, ProductDTO productDTO);
+
+    List<ProductDTO> findByName(String name);
+
+    ProductDTO updateQuantity(int id, int quantity);
 }

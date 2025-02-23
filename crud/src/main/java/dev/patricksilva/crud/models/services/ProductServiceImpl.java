@@ -64,4 +64,23 @@ public class ProductServiceImpl implements ProductService {
             return ProductMapper.INSTANCE.toDto(product);
         }, executor).join();
     }
+
+    public List<ProductDTO> findByName(String name) {
+        return productRepository.findByName(name).stream()
+                .map(ProductMapper.INSTANCE::toDto)
+                .toList();
+    }
+
+    public ProductDTO updateQuantity(int id, int quantity) {
+        return CompletableFuture.supplyAsync(() -> {
+            Optional<Product> existingProduct = productRepository.findById(id);
+            if (existingProduct.isEmpty()) {
+                throw new ResourceNotFoundException("Product with id: " + id + " not found!");
+            }
+            Product product = existingProduct.get();
+            product.setQuantity(quantity);
+            product = productRepository.save(product);
+            return ProductMapper.INSTANCE.toDto(product);
+        }, executor).join();
+    }
 }

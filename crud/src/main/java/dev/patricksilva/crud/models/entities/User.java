@@ -1,7 +1,15 @@
 package dev.patricksilva.crud.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 
 import java.util.HashSet;
 import java.util.List;
@@ -19,10 +27,9 @@ public class User {
     private String email;
     private String password;
 
-    // Relacionamento com Product: o mappedBy deve corresponder ao nome do campo em Product
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Product> products;
-
 
     @ManyToMany
     @JoinTable(
