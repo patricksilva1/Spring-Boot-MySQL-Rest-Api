@@ -7,7 +7,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.0.7</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>dev.patricksilva</groupId>
 	<artifactId>crud</artifactId>
@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
-			<version>1.5.5.Final</version>
+			<version>1.6.3</version>
 			<scope>provided</scope>
 		</dependency>
 
