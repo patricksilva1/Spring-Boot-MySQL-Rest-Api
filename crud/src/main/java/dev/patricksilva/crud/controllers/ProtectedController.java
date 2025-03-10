@@ -23,7 +23,6 @@ public class ProtectedController {
         return "protected";
     }
 
-    // ProductController.java
     @GetMapping("/product-details/{id}")
     public String getProductDetails(@PathVariable Integer id, Model model) {
         ProductDTO productDTO = productService.findById(id)

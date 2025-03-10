@@ -21,7 +21,6 @@ public interface ProductMapper {
 
     ProductResponse toResponse(ProductDTO productDTO);
 
-    // mapeamento Converte ProductRequest para ProductDTO
-    @Mapping(target = "id", ignore = true) // O ProductRequest não tem campo id
+    @Mapping(target = "id", ignore = true)
     ProductDTO toDtoFromRequest(ProductRequest productRequest);
 }

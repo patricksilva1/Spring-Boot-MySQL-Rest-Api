@@ -93,7 +93,6 @@ public class ProductServiceImpl implements ProductService {
     public void addComment(Integer productId, String comment) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found"));
-        // Assuming a Comment entity exists
         Comment newComment = new Comment();
         newComment.setText(comment);
         newComment.setProduct(product);

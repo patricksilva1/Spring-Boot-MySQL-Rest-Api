@@ -59,7 +59,6 @@ public class UserRequest {
 
     private Set<String> roles;
 
-    // Construtores
     public UserRequest() {
     }
 

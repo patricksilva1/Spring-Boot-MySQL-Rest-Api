@@ -1,6 +1,5 @@
 package dev.patricksilva.crud.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,9 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -27,7 +27,20 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<OrderItem> orderItems;
+
+
     // #region Getters and Setters
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
     public Long getId() {
         return id;
     }

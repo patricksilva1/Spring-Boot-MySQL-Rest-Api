@@ -2,6 +2,7 @@ package dev.patricksilva.crud.models.shared;
 
 import dev.patricksilva.crud.models.entities.Role;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -10,15 +11,16 @@ public class UserDTO {
     private String name;
     private String email;
     private String password;
-    private Set<String> roles; // Apenas os nomes dos papéis
+    private Set<String> roles;
 
-    // Construtor com 5 argumentos
-    public UserDTO(Long id, String name, String email, String password, Set<Role> roles) {
+    public UserDTO(Long id, String name, String email,
+                   String password, //TODO: Corrigir isso depois.
+                   Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.roles = roles.stream().map(Role::getName).collect(Collectors.toSet());
+        this.roles = roles != null ? roles.stream().map(Role::getName).collect(Collectors.toSet()) : new HashSet<>();
     }
 
     // Getters e setters

@@ -7,15 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@SuppressWarnings({"Deprecated", "Unused", "UnusedSpringBean", "UnusedSpringConfiguration"})
 @Configuration
 public class SecurityConfig {
 
@@ -28,7 +27,6 @@ public class SecurityConfig {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-    // Define explicitamente o AuthenticationProvider
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -37,7 +35,6 @@ public class SecurityConfig {
         return authProvider;
     }
 
-    // Configura o AuthenticationManager para usar o AuthenticationProvider acima
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authBuilder =
@@ -46,6 +43,7 @@ public class SecurityConfig {
         return authBuilder.build();
     }
 
+    //TODO: Corrigir a origem dos requests!
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())

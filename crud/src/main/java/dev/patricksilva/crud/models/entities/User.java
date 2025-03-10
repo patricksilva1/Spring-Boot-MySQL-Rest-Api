@@ -39,7 +39,19 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Order> orders;
+
     // Getters e setters
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     public Long getId() {
         return id;
     }

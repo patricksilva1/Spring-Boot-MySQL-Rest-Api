@@ -10,7 +10,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Lógica para buscar usuário no banco de dados
-        throw new UsernameNotFoundException("Usuário não encontrado: " + username);
+        throw new UsernameNotFoundException("User Not Found: " + username);
     }
 }

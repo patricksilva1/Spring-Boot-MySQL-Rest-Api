@@ -12,7 +12,6 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
-        // Mock data for sales statistics and top products
         model.addAttribute("salesData", Map.of(
                 "labels", new String[]{"January", "February", "March", "April", "May"},
                 "values", new int[]{1500, 2000, 1800, 2200, 1700}

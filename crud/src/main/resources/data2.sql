@@ -32,24 +32,6 @@ CREATE TABLE product (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Criação da tabela 'orders' com a chave estrangeira para 'users'
-CREATE TABLE orders (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    order_date TIMESTAMP,
-    user_id BIGINT,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
--- Criação da tabela 'order_items' com chaves estrangeiras para 'orders' e 'product'
-CREATE TABLE order_items (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    order_id BIGINT,
-    product_id BIGINT,
-    quantity INT,
-    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
-);
-
 -- Criação da tabela 'comments' com chaves estrangeiras para 'product' e 'users'
 CREATE TABLE comments (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
