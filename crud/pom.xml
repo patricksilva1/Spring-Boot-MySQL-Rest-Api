@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
-			<version>0.12.1</version>
+			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
 
